@@ -1,9 +1,7 @@
 
-from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel,EmailStr, conint
 from datetime import datetime
-from typing import Optional
-
-from sqlalchemy import VARCHAR
+from typing import Annotated, Optional
 
 class PostBase(BaseModel):
     title: str
@@ -46,3 +44,7 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id : Optional[str] = None
+
+class Vote(BaseModel):
+    post_id: int
+    dir: Annotated[int, ValueRange(0, 1)]
