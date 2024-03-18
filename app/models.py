@@ -6,6 +6,7 @@ from sqlalchemy.sql.expression import text
 
 from .database import Base
 
+
 class Post(Base):
     __tablename__ = 'posts'
 
@@ -27,6 +28,7 @@ class User(Base):
     password =Column(String,nullable=False)
     created_at= Column(TIMESTAMP(timezone=True) , 
                        nullable=False, server_default=text('now()'))
+    
 
 class Vote(Base):
     __tablename__ = "votes"
