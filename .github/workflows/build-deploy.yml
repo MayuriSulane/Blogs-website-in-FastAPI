@@ -17,7 +17,8 @@ jobs:
     services: 
       postgres:
         image: postgres
-        env: POSTGRES_PASSWORD: v2mayu2021
+        env: 
+        POSTGRES_PASSWORD: v2mayu2021
         POSTGRES_DB: fastapi_test
       ports:
         - 5432:5432
