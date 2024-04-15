@@ -1,10 +1,23 @@
-from turtle import title
+# from turtle import title
+# from fastapi.testclient import TestClient
+# import pytest
+# from sqlalchemy import create_engine
+# from sqlalchemy.orm import sessionmaker
+# from sqlalchemy.ext.declarative import declarative_base
+# from sympy import content
+# from app.main import app
+
+# from app.config import settings
+# from app.database import get_db
+# from app.database import Base
+# from app.oauth2 import create_access_token
+# from app import models
+# from alembic import command
 from fastapi.testclient import TestClient
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sympy import content
 from app.main import app
 
 from app.config import settings
@@ -13,6 +26,7 @@ from app.database import Base
 from app.oauth2 import create_access_token
 from app import models
 from alembic import command
+
 
 
 #SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:v2mayu2021@localhost:5432/fastapi_test'
