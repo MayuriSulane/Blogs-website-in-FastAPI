@@ -1,5 +1,6 @@
 
 from fastapi import Body, Depends, FastAPI,Response,status,HTTPException,APIRouter
+from sqlalchemy import true,func
 from sqlalchemy.orm import Session
 from typing import  List,Optional
 
@@ -12,14 +13,21 @@ router =APIRouter(
 )
 
 
+@router.get("/",response_model=List[schemas.PostOut])
 
-@router.get("/",response_model=List[schemas.Post])
 def get_posts(db:Session = Depends(get_db),current_user : int = Depends(oauth2.get_current_user),
 limit:int = 10,skip : int =0,search: Optional[str]=''):
     # cursor.execute(""" SELECT * FROM posts""")
     # posts= cursor.fetchall()
-    print(search)
-    posts= db.query(models.Post).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
+    # print(search)
+
+    # posts= db.query(models.Post).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
+
+    posts = db.query(models.Post,func.count(models.Vote.post_id).label("votes")).join(
+        models.Vote, models.Vote.post_id == models.Post.id , isouter=true).group_by(models.Post.id).filter(
+            models.Post.title.contains(search)).limit(limit).offset(skip).all()
+   
+
     return posts
 
 
@@ -44,12 +52,15 @@ def create_posts(post:schemas.PostCreate,db:Session = Depends(get_db),
 
 
 
-@router.get("/{id}",response_model=schemas.Post)
+@router.get("/{id}",response_model=schemas.PostOut)
 def get_post(id: int,db:Session = Depends(get_db),current_user : int = Depends(oauth2.get_current_user)):
     # cursor.execute("""SELECT * from posts where id= %s """,(str(id),))
     # post= cursor.fetchone()
     
-    post=db.query(models.Post).filter(models.Post.id==id).first()
+    # post=db.query(models.Post).filter(models.Post.id==id).first()
+    post=db.query(models.Post,func.count(models.Vote.post_id).label("votes")).join(
+        models.Vote, models.Vote.post_id == models.Post.id , isouter=true).group_by(models.Post.id).filter(models.Post.id==id).first()
+
     print(post)
     
     if not post:

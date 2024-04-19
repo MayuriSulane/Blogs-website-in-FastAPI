@@ -1,9 +1,7 @@
 
-from pydantic import BaseModel,EmailStr
+from typing import Annotated, Optional
+from pydantic import BaseModel,EmailStr, Field
 from datetime import datetime
-from typing import Optional
-
-from sqlalchemy import VARCHAR
 
 class PostBase(BaseModel):
     title: str
@@ -31,6 +29,13 @@ class Post(PostBase):
     class Config:
         orm_mode = True
 
+class PostOut(BaseModel):
+    Post: Post
+    votes : int
+
+    class Config:
+        orm_mode = True
+
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
@@ -46,3 +51,7 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id : Optional[str] = None
+
+class Vote(BaseModel):
+    post_id: int
+    dir: Annotated[int, Field(strict=True,le=1, ge=0)]
