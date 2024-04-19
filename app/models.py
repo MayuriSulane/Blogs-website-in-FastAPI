@@ -1,5 +1,4 @@
 
-import string
 from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer,String,Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
